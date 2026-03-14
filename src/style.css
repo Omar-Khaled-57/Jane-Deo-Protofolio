@@ -1,0 +1,272 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Cairo';
+    src: url('/fonts/Cairo-Regular.ttf') format(opentype);
+}
+
+@font-face {
+    font-family: 'Gill Sans';
+    src: url('/fonts/Gill Sans Medium.otf') format(opentype);
+}
+
+@layer base {
+    body {
+        @apply bg-[#0a0a0a] text-white overflow-x-hidden;
+    }
+
+    /* English Fonts */
+    :lang(en) {
+        font-family: 'Gill Sans', 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    /* :lang(en) h1,
+    :lang(en) h2,
+    :lang(en) h3,
+    :lang(en) h4,
+    :lang(en) h5,
+    :lang(en) h6 {
+        font-family: 'Playfair Display', serif;
+    } */
+
+    /* Arabic Fonts */
+    :lang(ar) {
+        font-family: 'Cairo', sans-serif;
+    }
+
+    /* :lang(ar) h1,
+    :lang(ar) h2,
+    :lang(ar) h3,
+    :lang(ar) h4,
+    :lang(ar) h5,
+    :lang(ar) h6 {
+        font-family: 'Cairo', sans-serif;
+        font-weight: 700;
+    } */
+}
+
+/* Scroll Animation Styles - Ported from Devora Project */
+
+/* Slides Container */
+.slides-container {
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+}
+
+/* Individual Slide */
+.slide {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.6s ease, visibility 0.6s;
+    /* Add padding for navbar */
+    padding-top: 80px;
+}
+
+/* Active slide - ensure it handles its own scrolling */
+.slide.active {
+    position: absolute;
+    inset: 0;
+    height: 100vh;
+    /* Force full height */
+    overflow-y: auto;
+    /* Internal scroll */
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 10;
+}
+
+/* Elements in inactive slides */
+.slide:not(.active) h1,
+.slide:not(.active) h2,
+.slide:not(.active) h3,
+.slide:not(.active) p,
+.slide:not(.active) img,
+.slide:not(.active) .animate-target,
+.slide:not(.active) button,
+.slide:not(.active) ul,
+.slide:not(.active) li {
+    opacity: 0 !important;
+    transform: translateY(30px) !important;
+}
+
+/* Elements in active slide - start hidden, will animate in */
+.slide.active h1,
+.slide.active h2,
+.slide.active h3,
+.slide.active p,
+.slide.active img,
+.slide.active .animate-target,
+.slide.active button,
+.slide.active ul,
+.slide.active li {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+/* Entrance animation */
+.slide.active .ora {
+    animation: slideInUp 0.8s ease forwards;
+}
+
+/* Exit animation */
+.ora-exit {
+    animation: slideOutDown 0.8s ease forwards !important;
+}
+
+@keyframes slideInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOutDown {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+}
+
+/* Staggered delays */
+.ora:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.ora:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.ora:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.ora:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.ora:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.ora:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+/* Slide Indicators */
+.slide-indicators {
+    position: fixed;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 2px solid rgba(29, 78, 216, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator:hover {
+    border-color: rgba(29, 78, 216, 0.6);
+    transform: scale(1.2);
+}
+
+.indicator.active {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+    transform: scale(1.3);
+}
+
+body.scroll-animated {
+    overflow: hidden;
+}
+
+/* Custom Scrollbar for slide content */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1d4ed8;
+}
+
+section {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    /* padding-bottom: 10vh; Removed to prevent double padding if .patch is used */
+}
+
+/* Unified Responsive Spacer */
+.responsive-spacer {
+    @apply w-full pointer-events-none;
+    /* Base spacing */
+    @apply mt-[15vh];
+
+    /* Height-based overrides ( User's preferences from CoreExpertise ) */
+    /* Small height screens (Landscape phones / small phones) */
+    @apply h-xs:mt-[30vh];
+
+    /* Slightly taller */
+    @apply h-sm:mt-[25vh];
+
+    /* Modern phones */
+    @apply h-md:mt-[20vh];
+
+    /* Portrait mode general override if needed, or stick to h- logic */
+    @apply portrait:mt-[15vh];
+
+    @apply landscape:hidden;
+}
+
+/* English specific adjustments if needed */
+:lang(en) .responsive-spacer {
+    @apply mt-[20vh];
+    @apply h-xs:mt-[35vh];
+}
+
+:lang(en) #sec2 h2{
+    font-size: clamp(2rem, 5vw, 5rem);
+}
+
+:lang(ar) #sec1 h1{
+    font-family: 'Cairo', sans-serif;
+}
+
+.arrow {
+    @apply w-[2px] h-12 mx-auto mb-4 bg-gradient-to-b from-transparent via-white/30 to-transparent;
+}
