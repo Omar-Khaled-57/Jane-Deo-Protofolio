@@ -6,7 +6,7 @@ export function CertificatesGallery(lang = 'en') {
     return `
         <section id="sec6" class="slide">
              <div class="pb-20">
-                <div class="max-w-6xl px-8 w-full">
+                <div class="max-w-6xl px-8 w-[80%] mx-auto">
                 <span class="text-blueVibrant text-xs tracking-[0.4em] block mb-8 animate-target ora uppercase">${t.label}</span>
                 
                 <h2 class="text-4xl md:text-5xl font-display mb-12 animate-target ora uppercase">
